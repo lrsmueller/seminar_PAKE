@@ -1,0 +1,13 @@
+S. M. Bellovin and M. Merritt, "Encrypted key exchange: password-based protocols secure against dictionary attacks," Proceedings 1992 IEEE Computer Society Symposium on Research in Security and Privacy, 1992, pp. 72-84, doi: 10.1109/RISP.1992.213269.
+
+
+David P. Jablon. 1996. Strong password-only authenticated key exchange. SIGCOMM Comput. Commun. Rev. 26, 5 (Oct. 1996), 5–26. DOI:https://doi.org/10.1145/242896.242897
+MacKenzie, P. (2001). More Efficient Password-Authenticated Key Exchange. In: Naccache, D. (eds) Topics in Cryptology — CT-RSA 2001. CT-RSA 2001. Lecture Notes in Computer Science, vol 2020. Springer, Berlin, Heidelberg. https://doi.org/10.1007/3-540-45353-9_27
+Bellare, M., Pointcheval, D., Rogaway, P. (2000). Authenticated Key Exchange Secure against Dictionary Attacks. In: Preneel, B. (eds) Advances in Cryptology — EUROCRYPT 2000. EUROCRYPT 2000. Lecture Notes in Computer Science, vol 1807. Springer, Berlin, Heidelberg. https://doi.org/10.1007/3-540-45539-6_11
+D. P. Jablon, "Extended password key exchange protocols immune to dictionary attack," Proceedings of IEEE 6th Workshop on Enabling Technologies: Infrastructure for Collaborative Enterprises, 1997, pp. 248-255, doi: 10.1109/ENABL.1997.630822.
+
+
+
+
+Feng Hao and Paul C. van Oorschot. 2022. SoK: Password-Authenticated Key Exchange -- Theory, Practice, Standardization and Real-World Lessons
+

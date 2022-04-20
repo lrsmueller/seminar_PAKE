@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage%
+[%
+left=2cm,% left margin
+right=2cm,% right margin
+top=3cm, % top margin
+bottom=3cm,% bottom margin
+a2paper% other options: a0paper, a1paper, a2paper, a3paper, a4paper, a5paper, a6paper, and many more.
+]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Lars Müller}
+\lhead{SoK: Password Authenticated Key Agreement}
+
+
+\begin{document}
+
+\section{Citation Tree}
+
+\begin{tikzpicture}[
+    source/.style={
+        circle, 
+        draw=orange!40, 
+        thick, 
+        minimum size=7mm,
+        align=center,
+        inner sep=-25pt,
+        text width=3cm,
+        },
+    ref/.style={
+        -stealth,
+        draw=orange!40,thick
+    }
+]
+
+% Sources
+\node[source]
+    at (6,0)
+    (Strong_password-only_authenticated_key_exchange)
+    {Strong password-only authenticated key exchange};
+\node[source]
+    at (0,-6)
+    (More_Efficient_Password-Authenticated_Key_Exchange)
+    {More Efficient Password-Authenticated Key Exchange};
+\node[source]
+    at (6,-5)
+    (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks)
+    {Authenticated Key Exchange Secure against Dictionary Attacks};
+\node[source]
+    at (12,-2)
+    (Extended_password_key_exchange_protocols_immune_to_dictionary_attack)
+    {Extended password key exchange protocols immune to dictionary attack};
+
+\node[source]
+    at (6,-12)
+    (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization and Real-World Lessons)
+    {SoK: Password-Authenticated Key Exchange -- Theory, Practice, Standardization and Real-World Lessons};
+
+%Lines
+\draw[ref] (Strong_password-only_authenticated_key_exchange.south west) -- (More_Efficient_Password-Authenticated_Key_Exchange.north east);
+\draw[ref] (Strong_password-only_authenticated_key_exchange.south) -- (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.north);
+
+\draw[ref] (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.west) -- (More_Efficient_Password-Authenticated_Key_Exchange.east);
+
+\draw[ref] (Extended_password_key_exchange_protocols_immune_to_dictionary_attack.west) -- (More_Efficient_Password-Authenticated_Key_Exchange.north east);
+\draw[ref] (Extended_password_key_exchange_protocols_immune_to_dictionary_attack.west) -- (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.north east);
+
+\end{tikzpicture}
+\end{document}
