@@ -35,41 +35,61 @@ a2paper% other options: a0paper, a1paper, a2paper, a3paper, a4paper, a5paper, a6
         },
     ref/.style={
         -stealth,
-        draw=orange!40,thick
+        draw=orange!60,thick
     }
 ]
 
 % Sources
 \node[source]
-    at (6,0)
+    at (2,-6)
+    (Encrypted_key_exchange_password-based_protocols_secure_against_dictionary_attacks)
+    {Encrypted key exchange: password-based protocols secure against dictionary attacks};
+\node[source]
+    at (6,-7)
     (Strong_password-only_authenticated_key_exchange)
     {Strong password-only authenticated key exchange};
 \node[source]
-    at (0,-6)
+    at (0,-10)
     (More_Efficient_Password-Authenticated_Key_Exchange)
     {More Efficient Password-Authenticated Key Exchange};
 \node[source]
-    at (6,-5)
+    at (5,-10)
     (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks)
     {Authenticated Key Exchange Secure against Dictionary Attacks};
 \node[source]
-    at (12,-2)
+    at (12,-7)
     (Extended_password_key_exchange_protocols_immune_to_dictionary_attack)
     {Extended password key exchange protocols immune to dictionary attack};
-
 \node[source]
-    at (6,-12)
-    (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization and Real-World Lessons)
+    at (5,-14)
+    (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques)
+    {IEEE Standard Specification for Password-Based Public-Key Cryptographic Techniques};
+\node[source]
+    at (6,-19)
+    (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons)
     {SoK: Password-Authenticated Key Exchange -- Theory, Practice, Standardization and Real-World Lessons};
 
 %Lines
+\draw[ref] (Encrypted_key_exchange_password-based_protocols_secure_against_dictionary_attacks.south) -- (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons.north west);
+\draw[ref] (Encrypted_key_exchange_password-based_protocols_secure_against_dictionary_attacks.south) -- (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques.north);
+\draw[ref] (Encrypted_key_exchange_password-based_protocols_secure_against_dictionary_attacks.south) -- (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.north);
+
 \draw[ref] (Strong_password-only_authenticated_key_exchange.south west) -- (More_Efficient_Password-Authenticated_Key_Exchange.north east);
 \draw[ref] (Strong_password-only_authenticated_key_exchange.south) -- (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.north);
+\draw[ref] (Strong_password-only_authenticated_key_exchange.south) -- (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques.north);
+\draw[ref] (Strong_password-only_authenticated_key_exchange.south) -- (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons.north);
 
 \draw[ref] (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.west) -- (More_Efficient_Password-Authenticated_Key_Exchange.east);
+\draw[ref] (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.south) -- (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques.north);
 
 \draw[ref] (Extended_password_key_exchange_protocols_immune_to_dictionary_attack.west) -- (More_Efficient_Password-Authenticated_Key_Exchange.north east);
 \draw[ref] (Extended_password_key_exchange_protocols_immune_to_dictionary_attack.west) -- (Authenticated_Key_Exchange_Secure_against_Dictionary_Attacks.north east);
+\draw[ref] (Extended_password_key_exchange_protocols_immune_to_dictionary_attack.south) -- (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons.north);
+
+\draw[ref] (More_Efficient_Password-Authenticated_Key_Exchange.south east) -- (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques.north east);
+\draw[ref] (More_Efficient_Password-Authenticated_Key_Exchange.south) -- (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons.north west);
+
+\draw[ref] (IEEE_Standard_Specification_for_Password-Based_Public-Key_Cryptographic_Techniques.south) -- (SoK_Password-Authenticated_Key_Exchange_Theory_Practice_Standardization_and_Real-World_Lessons.north);
 
 \end{tikzpicture}
 \end{document}
