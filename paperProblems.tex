@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
@@ -23,61 +23,177 @@ lars.mueller@tum.de}
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+In the last years data breaches in websites have become fairly common.
+This happens 
 \end{abstract}
 
 \begin{IEEEkeywords}
 \end{IEEEkeywords}
 
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits. 
+notes \\
+- normal password auth Vulnerable to offline Attacks \\
+- motivation for development of pake protocls \\
+- standardization  \\
+- Upcomming Questions, why not standard today only a few  \\
+- Topics of paper: \\
+    - Short Introduction to PAKE Protocols and their cryptography behind them \\
+    - The Usage of PAKE in applications today \\
+    - Attacks on PAKE \\
+    - Some other reasons PAKE isnt used widely \\
 
 \section{Related Work}
-
+As PAKE protocls have a long history in somputer science terms, there is a lot of research already being done.
+There are a lot of different approaches on the topic and different ideas to solve different problems.
+The first appearance of Encrypted Key Exchange was 1992 in a paper which described a basic protocol secure against dictionary Attacks.
+The first standardization of PAKE Protocols came with IEEE P1363.2. This project was formed because of huge interest in Industry and Science in the theme
+During this first so called period of PAKE protocols these protocols where revised and reworked multiple times which extended the working period to 2008.
+However after the standardization was finsihed it didnt lead to huge adoption in the industry as it was hoped.
+In the second phase of PAKE development some services adopted the PAKE protocl such as Apple Icloud or Mozzila Firefox.
+In 2018 WPA3 the replacement for WPA2, the protocol to secure wifi networks, was announced by the WIFI Alliance.
+It includes an PAKE protocol called Dragonfly to authenticate with the wifi router. 
+The huge amount of PAKE protocls followed the problem
 \section{Background}
+\subsection{The basic security principels of PAKE}
+PAKE basicly allow 2 parties to establish a secure channel inwhich they can communicate without the fear of a 3rd partie to listen.
+The Requirements are the following
+\begin{itemize}[\IEEEsetlabelwidth{Z}]
+    \item Resistance against Dictonary Attacks: \\
+        The communitcation between the two parties must not be decryptable. This means that there is not data obtainable which allows an attacker to find the private secret. 
+        Especially if the guesses on the secret are run offline by a dictionary or another password-decryption like attack.
+    \item On Password guess per Conection: \\
+        When establishing a new connection between two parties only one guess on the secret is possible. It isnt possible for an attacker to send for example 100 password in one connection attempt, the attacker needs 100 to try them out.
+        Additionally these attempts should be visible and blockable to prevent further guessing the secret. 
+    \item forward secrecy: \\
+        Alice and Bob have established a protected session with their pre-shared secret, they both a session-secret which allows them to communicate securly. Eve gets to known the pre-shared secret. 
+        She can establish a new session with either Alice or Bob and impersonate the other, however she does not know the session-secret and can therefore not listen to what Bob and Alice are doing in their already established session.
+    \item session-key security: \\
+        Additionally to the session of Alice and Bob there is another session between Alice and Charlie. Eve is now able to obtain the session-secret from Alice-Bob, this means she can listen to their communitcation. 
+        The session between Alice and Charlie is still not compromised. This is the case for every other session.
+\end{itemize}
+A PAKE is a two stage protocol.   
 
-\section{Problems with PAKE}
-\subsection{Attacks on PAKE}
-\subsubsection{Time-Attack}
-\subsubsection{Replay-Attack}
-\subsubsection{Dictonary Attack}
+\subsection{Basics of encrypted Communication} % alt: titel Diffie Hellman, hash, Zero-Knowledge Proof Public Key Infrastructure Public and Key Infrastructure 
+\subsubsection{Hashing}
+    A hash function takes a key as input.
+    The output is a fixed size hashcode.
+    These functions are used to map data to make it indexable 
+    That would be the case if the hashfunction was perfect which is physically not possible.
+    Hashfunctions follow three principles to withstand different types of attacks
+    \begin{itemize}[\IEEEsetlabelwidth{Z}]
+        \item Pre-Image resistance \\
+        It is difficult to find a corresponding message $M$ to a given hash $h$, $h=hash(M)$.
+        The function is a one-way function.
+        \item Second Pre-Image resistance \\
+        It is difficult to find another message $M2$ getting the same hash as the first message $M1$. $hash(M1)=hash(M2)$.
+        \item Collsion resistance \\
+        Similar to second pre-image resistance, it should be difficult to find two message $M1,M2$ that have the same hash. $hash(M1)=hash(M2)$.
+    \end{itemize}
+\subsubsection{Zero-Knowledge-Proof}
+    The Zero-Knowledge-Proof describes a way to proof someone else that you know a secret without ever telling the person the secret. The verifing person knows the secret aswell.
+    The veriefer can ask you different questions which are conducted from the secret, which you can answer correct if you know the secret.
+    This can be repeated until the veriefer is convinced that you know the secret.
+    An Abstract example would be Alice is colorblind and Bob is not. 
+    Bob has a red and a green ball. They seem identical to Alice so she is not sure if Bob is telling her the truth and they are different.
+    She wants to proof Bob and holds one Ball in her left the other in her right hand. Bob knows in which hand they are curently.
+    Alice decides, without Bob looking, if she wants to switch the balls or not after shes done that she asks bob if she switched or not.
+    Bob answers, if both balls have the same color bob will eventually choose the wrong option. If they are differently colored Bob shoudl be able to tell Alice if she switchted or not.
+    Like a lot of conecpts in cryptography the zero-knowledge-proof has some properties which define it.
+    \begin{itemize}[\IEEEsetlabelwidth{Z}]
+        \item completeness \\
+        if the proof is correct, the proofer will convice the veriefer that he is correct
+        \item Soundness \\
+        if the proof is wrong, the veriefer will not be conviced by the proofer, however there is a small probabilty for error
+        \item Zero-Knowledge \\
+        There is no secret leeked by proofing.
+    \end{itemize}
+    A famous Zero-Knowledge-Proof would be the Schnoor-Signature
+    \begin{itemize}[\IEEEsetlabelwidth{Z}] %TODO Abbildung/besser beschreiben
+        \item Group $G$ of prime order $q$ with generator g
+        \item Hash function $H: \{0,1\}^* \leftarrow \mathbb{Z}_q$ 
+        \item ALICE
+        \item Pick private random key $a$
+        \item get public key $A = g^a$
+        \item Sign Message $M: \{0,1\}^*$
+        \item 1. Pick Random number $r$
+        \item 2. Compute $R = g^r$ 
+        \item 3. Signature $E = H(M, R)$
+        \item 4. Signature $S = r - a \cdot E$
+        \item Send Bob Public Key $A$, Message $M$ and Signature $E,S$
+        \item Bob verifys $M: \{0,1\}^*$
+        \item derive $ R' = g^S \cdot A^E = g^{r - aE} \cdot (g^a)^E = g^r $
+        \item derive $ E' = H(M,R') $
+        \item Check E'=E
+    \end{itemize}
+\subsection{PAKE Handshake}
+\subsubsection{Balanced PAKE: DH-EKE}
+    %TODO Abbildung/besser beschreiben
+    \begin{itemize}[\IEEEsetlabelwidth{Z}]
+        \item  Pre Shared Secret
+        \item  A gen. RNR(private key)-> publc key -> encrypted with PSK
+        \item  A send Enc[PSK](public key)
+        \item  B dercypt  Enc(A) with PSK->
+        \item  B gen RNR(private key) -> publc key
+        \item  B gen Sessionkey, random Challenge 
+        \item  B send Enc[PSK](public key,  Enc[Sessionkey](Challenge))
+        \item  A decypt, receives bob pub key
+        \item  A gen. Sessionkey with her private key and bobs public key
+        \item  A decypts 2nd part of message wiht sessionkey
+        \item  A generates challenge
+        \item  A sends Enc[Sessionkey](challengeA,challengeB)
+        \item  B decrypts checks if challengeB is the same (if no sesion is dropped)
+        \item  B sends Enc[Sessionkey](challgeneA)
+        \item  A decrypts, checks if challgeneA is the same as her 
+        \item  Can send messages encrypted with sessionkey now
+    \end{itemize}
+\subsubsection{Augmented PAKE: SRP}
+    %TODO Abbildung/besser beschreiben
+
+\section{Usage of PAKE}
+The newest Wifisecurity standard WPA3 intruducted an Augmented PAKE Protocol to the authentication of secured Wifi networks.
+This protocl is called Dragonfly and is especially used in the Handshakeprocess of the connection.
+
+\subsection{Problems with PAKE}
+
+\section{Attacks on PAKE}
+
+\subsection{Time-Attack}
+\subsection{Replay-Attack}
+\subsection{Dictonary Attack}
+\subsection{Impersonation Attack}
+The impersonation attack is applicable if two users have multiple sessions in paralell with each other.
+\subsection{Invalid-curve Attack}
+
 Especially the offline dictionary attack is a problem, happens to other services/protocols aswell
 Assymetric PAKE
-\subsection{General Design Flaws}
 
-\subsection{General Problems occuring in PAKE Problems}
-
-\section{Evaluation}
-
-\section{Discussion}
+\section{Evaluation \& Discussion}
+- a lot of protocols have flaws even the used ones (WLAN)
+- Normal password based protocols are easier to implement and have the same security for the user, if done right
+- patents have made it difficult to use PAKE protocols as they are all protected
+- Pseudo Randomness made it insecure in webbbrowsers
 
 \section{Conclusion}
 
 
+% Please number citations consecutively within brackets \cite{b1}. The 
+% sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
+% number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
+% the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
 
-\section*{References}
+% Number footnotes separately in superscripts. Place the actual footnote at 
+% the bottom of the column in which it was cited. Do not put footnotes in the 
+% abstract or reference list. Use letters for table footnotes.
 
-Please number citations consecutively within brackets \cite{b1}. The 
-sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
-number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
-the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+% Unless there are six authors or more give all authors' names; do not use 
+% ``et al.''. Papers that have not been published, even if they have been 
+% submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
+% that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
+% Capitalize only the first word in a paper title, except for proper nouns and 
+% element symbols.
 
-Number footnotes separately in superscripts. Place the actual footnote at 
-the bottom of the column in which it was cited. Do not put footnotes in the 
-abstract or reference list. Use letters for table footnotes.
-
-Unless there are six authors or more give all authors' names; do not use 
-``et al.''. Papers that have not been published, even if they have been 
-submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
-that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
-Capitalize only the first word in a paper title, except for proper nouns and 
-element symbols.
-
-For papers published in translation journals, please give the English 
-citation first, followed by the original foreign-language citation \cite{b6}.
+% For papers published in translation journals, please give the English 
+% citation first, followed by the original foreign-language citation \cite{b6}.
 
 \begin{thebibliography}{00}
 \bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
@@ -87,9 +203,14 @@ citation first, followed by the original foreign-language citation \cite{b6}.
 \bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
 \bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
 \bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
+\bibitem{b8} http://ijns.jalaxy.com.tw/contents/ijns-v17-n5/ijns-2015-v17-n5-p629-636.pdf
+\bibitem{b9} Mathy Vanhoef and Eyal Ronen, ``Dragonblood: Analyzing the Dragonfly Handshake of WPA3 and EAP-pwd,''
+\bibitem{b10} https://chunminchang.gitbooks.io/j-pake-over-tls/content/pake/balanced/dh-eke.html
+\bibitem{b11} https://www.dcs.warwick.ac.uk/~fenghao/files/pw.pdf
+\bibitem{b12} https://eprint.iacr.org/2014/585.pdf
 \end{thebibliography}
 \vspace{12pt}
-\color{red}
-IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+% \color{red}
+% IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
 
 \end{document}
