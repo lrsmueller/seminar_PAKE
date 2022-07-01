@@ -1,3 +1,4 @@
+%\documentclass[journal, 12pt, onecolumn, draftclsnofoot]{IEEEtran} %draft mode
 \documentclass[journal]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
@@ -11,7 +12,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Problems with PAKE protocols\\
+\title{Problems with PAKE protocols\\ % An Introduction to PAKE and its respective Problems
 %\thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
@@ -33,7 +34,7 @@ This happens
 \section{Introduction}
 notes \\
 - normal password auth Vulnerable to offline Attacks \\
-- motivation for development of pake protocls \\
+- motivation for development of pake protocols \\
 - standardization  \\
 - Upcomming Questions, why not standard today only a few  \\
 - Topics of paper: \\
@@ -43,16 +44,16 @@ notes \\
     - Some other reasons PAKE isnt used widely \\
 
 \section{Related Work}
-As PAKE protocls have a long history in somputer science terms, there is a lot of research already being done.
+As PAKE protocols have a long history in somputer science terms, there is a lot of research already being done.
 There are a lot of different approaches on the topic and different ideas to solve different problems.
 The first appearance of Encrypted Key Exchange was 1992 in a paper which described a basic protocol secure against dictionary Attacks.
 The first standardization of PAKE Protocols came with IEEE P1363.2. This project was formed because of huge interest in Industry and Science in the theme
 During this first so called period of PAKE protocols these protocols where revised and reworked multiple times which extended the working period to 2008.
 However after the standardization was finsihed it didnt lead to huge adoption in the industry as it was hoped.
-In the second phase of PAKE development some services adopted the PAKE protocl such as Apple Icloud or Mozzila Firefox.
+In the second phase of PAKE development some services adopted the PAKE protocol such as Apple Icloud or Mozzila Firefox.
 In 2018 WPA3 the replacement for WPA2, the protocol to secure wifi networks, was announced by the WIFI Alliance.
 It includes an PAKE protocol called Dragonfly to authenticate with the wifi router. 
-The huge amount of PAKE protocls followed the problem
+The huge amount of PAKE protocols followed the problem
 \section{Background}
 \subsection{The basic security principels of PAKE}
 PAKE basicly allow 2 parties to establish a secure channel inwhich they can communicate without the fear of a 3rd partie to listen.
@@ -74,7 +75,7 @@ The Requirements are the following
 A PAKE is a two stage protocol.   
 
 \subsection{Basics of encrypted Communication} % alt: titel Diffie Hellman, hash, Zero-Knowledge Proof Public Key Infrastructure Public and Key Infrastructure 
-\subsubsection{Safe Prime}
+%\subsubsection{Safe Prime}
 \subsubsection{Hashing}
     A hash function takes a key as input.
     The output is a fixed size hashcode.
@@ -149,11 +150,10 @@ A PAKE is a two stage protocol.
     \end{itemize}
 \subsubsection{Augmented PAKE: SRP}
     %TODO Abbildung/besser beschreiben
-
-\section{Usage of PAKE}
-%TODO woanders unterbringer
-The newest Wifisecurity standard WPA3 intruducted an Augmented PAKE Protocol to the authentication of secured Wifi networks.
-This protocl is called Dragonfly and is especially used in the Handshakeprocess of the connection.
+    SRP is probably the most used protocl of the PAKE protocols.
+    It is used by the mail provider ProtonMail and in the smart home solution of Apple, Apple HomeKit.
+    Another protocol which will probably used in the future a lot is the Dragonfly protocl used in the new WIFI security standard WPA3. %move to balanced
+    %more on usage
 
 \subsection{Problems with PAKE}
 
@@ -162,6 +162,7 @@ To explain the attacks and some of their corresponding protocols it is needed to
 Let $G$ denotes a subgroup of $Z^{*}_{p}$ of prime order $q$ where $p$ is prime and $q$ is big enough for intractability of the Decisional %TODO explain
 Let $g \in G$ be a generator
 The hash or the value of the password are in the intervall $[1,p-1]$.
+
 \subsection{Dictonary attack}
 A pretty basic attack which is pretty common in Public-Key-Infrastructure aswell.
 To perform a dictionary attack you need a dictionary with common passwords, it is possible to create dictionary based on information from the user. 
@@ -169,16 +170,51 @@ A lot of times dictionary are also generated from leaked passwords on the intern
 Next you need an encrypted message or hash which you want to decrypt or find the corresponding message to.
 The last thing you need is the used encryption/hash function to cipher the message. \\
 Now it is possible to try out as many different passwords as you have in your dictionary, only limited by time and available resources.
-Even if one security principle of PAKE is that it is protected against offline dictionary attacks some protocls are vulnerable to these attacks.
-For example SRP, it doenst store the password on the server. it only saves a veriefer, which is a one-way-function of the password hash.
+Even if one security principle of PAKE is that it is protected against offline dictionary attacks some protocols are vulnerable to these attacks.
+An augmented PAKE liek SRP, is not storing the password on the server. Only a veriefer is saved, which is a one-way-function of the password hash.
 This means if the database is breached it would allow an attacker to start an offline dictionary attack on the veriefer. 
 This is pretty similar to todays mostly used Public Key Infrastructure, where only a password hash is stored on the server.
-% TODO genauer drauf eingehen  
+Nonetheless this does not mean that the SRP protocol is completly secure against dictonary attacks, it is only secure against server data leaks.
+% TODO genauer drauf eingehen/example
+For example %example
+
 \subsection{pre-computation attacks}
-Especially the offline dictionary attack is a problem, happens to other services/protocols aswell
-Assymetric PAKE
+Pre-Communication attacks are a form of dictonary attack, which is like the dictionary attack not limited to PAKE protocols. 
+It works by pre-computing password hashes with a salt. After a data breach on the server-side or another way that leaks the password hash it is possible to look up the corresponding password instantly.
+Even though an augmented PAKE isnt directly vulnerable to such attacksm, it is sometimes still possible.
+An Example would be the Secure  Remote Password (SRP) protocol. It is a rather famous protocol because it is used by some applications, therefore there are a lot of different implementations for it. % weiter oben ?
+This protocol does not store the password on the server only a veriefer to verify the password. 
+But it is possilbe to pre-compute veriefer for passwords if it is known that the target server is using the SRP protocol. 
+Lets continue with the example of the dictionary attack %example
+
+\subsection{side-channel attack}
+This is a group of attacks, which try to find secrets by gathering information from the target. They do not aim on the design of the protocol, they target the implementation 
+These information can be of physical nature like power consumption, electro magnetic radiation. Measuring the time it needs to compute a cryptographic function and than relaying information on the secret is also a sidechannel attack.
+Aswell as watching the access of the chache used by some victim. 
+
+\subsection{PARASITE}
+While we explained some theory based attacks now we will focus on an attack on the OpenSSL implementation of SRP.
+This attack could lead to a password leak and is called PARASITE (PAssword Recovery Attack against Srp implementations in ThE wild) and is a cache based side channel attack. 
+In this attack the target is the password of a victim which is saved on the memory. Especially the Flush+Reload and Performance Degradation Attack (PDA) is used.
+It monitors the memory adresses and finds the used ones by the victim. This is achieved by flushing and reloading the cache and measuring the time needed for the victim to receive the data.
+If the memory is flushed at the point of access the data needs to be looked up from the memory directly which subsequentlly takes longer.
+In the OpenSSL implementation of the modular exponentiation, they use a special variable to speed up the square and multiplication process. However the variable owerflows,after that a new bigger variable with the Montgomery representation is used.
+The Montgomery representation is an eliptic curve used to speed up the process of modular exponentiation.
+Hence this part oft the implementation allows an attacker to distinguish every iteration on it, as the first part of the implementation was to fast. 
+This makes the the amount of iterations guessable and you therefore guess some bit patterns.
+The chosen generator is 5, because it is the most convienient one to used. With knowing the generator we can identify on which bits the accumulated variable is overflowing and how many iterations are needed until the overlow occours.
+Through FLUSH+RELOAD attacks it is possible to deduct some bits of the password while other remain unkown however due to known possition of said bits it is possible tu reduce the remaining possiblities. 
+If it is not possible to find the password with one run of the Protocol, it can be run more times, with another salt, to get different bit patterns of the same password.
+Because we know some parts of the password it is possible to start a dictionary attack on the password even a pre-computation attack as we know the used salt.
+With knowing the password we can impersonate both parties. We know the password to tell the server we are the user he expects aswell as telling the user we are the server because we could calculate the verifier stored on the server.    
+These type of attacks happen and are partly possible on differnt cryptographic protocols. Also it is important to mention that the threat model of the attack.
+It needs access to the memory and the cache of the processor. This is possible through a spy programm on the pc or a java-script injection in the browser 
+The OpenSSL libary is one of the most used crypto libaries and therefore used as reference in other implementations. This is also the case on other implementations of the srp protocol which made them vulnerable aswell.
+To make the attack a bit more clear %example
+
 \subsection{Impersonation attack}
-The first EKE Protocls aswell as the SPEKE Protocol is suffering from this attack.
+The first EKE protocols aswell as the SPEKE protocol is suffering from this attack.
+EKE and SPEKE are balanced PAKEs.
 Like the name sugests the attacker poses as a user in the impersonation attack to obtain private information. 
 The impersonation attack is applicable if two users have multiple sessions in paralell with each other.
 Alice and Bob share a common password. Now Alice starts a session with Bob (Session 1) by sending him random seltected number $g^x mod p$ (p is a safe prime number).
@@ -190,27 +226,68 @@ Eve now initatiates another session (Session 2) with Alice using $g^{xz}$. Alice
 Eve does the same as before and raises this number by the power of $z$ to $g^{yz}$ and sends it back to Alice.
 In the next step Eve sends the intercepted key confirmation challenge to Alice which will be answered by Alice with $H(k)$.
 Now Eve has intercepted Session 1 while owning Session 2 completly which opens up fro different scenarios 
+% TODO genauer drauf eingehen/abbildung
 
 \subsection{Replay-Attack}
-This is a sub-attack of the impersonation attack. The J-PAKE protocol is vulnerable against it.
-If an Attacker intercepted an earlier run of the protocol it is possible for him to replay these messages to impersonate one party.
+This is an attack on the J-PAKE protocol, which was used in the mozzila firefox syncronisation feature. It is related to the impersonation attack, becuase it replays eavesdropped messages and impersonate the other party.
+This attack is limited by the fact that the session key cannot be computed from the eavesdropped messages without the password of a session member.
+it means, that attackers are only authenticated but they cannot encrypt or decrypt messages from the other participant.
+Basically this is a varaiation of the impersonation attack on augmented PAKEs 
 J-PAKE consists of 4 messages which can be denoted into two independent parts. The Authentication Part is independent from the key exchange part.
 The second part of J-PAKE which allows to run a replay-attack on it is that the function to generate a session-key doesnt include some session-specific information.
-This allows for some 
-\subsection{Time-Attack}
-\subsection{Invalid-curve attack}
-
-
+We assume an Attacker Eve intercepted an earlier run of the protocol and he wants to impersonate Alice.
+$E$ sends a derived message to $B$. 
+$B$ proceeds to start his part of the J-PAKE by seleting random numbers and computing Zero-Knowledge-Proofs to them.
+$E$ answers with the next eavesdropped and derived message. 
+$B$ now verifys the numbers of $E$ with his own and generates a session key $k$, using values from the first message and his own random generations.
+Bob thinks Eve is Alice but Eve cannot compute the session key because she doesnt have the password of Alice and $x_2$.
+$x_2$ is the second random generated value of Alice which is never sent to Bob because it was only used as exponent of a save prime number.  
+\subsection{Dragonblood}
+Is a series of Vulnerabilieties on the balanced PAKE Dragonfly. This PAKE is used in WPA3 as Handshake. 
 
 \section{Evaluation \& Discussion}
-- a lot of protocols have flaws even the used ones (WLAN)
-- Normal password based protocols are easier to implement and have the same security for the user, if done right
-- patents have made it difficult to use PAKE protocols as they are all protected
-- Pseudo Randomness made it insecure in webbbrowsers
+Despite their long history PAKE protocols have not jet made the jump to be a well known solution to the common problem of authenticating a user to a server. 
+The current standard is involving a TLS connection which prevents man-in-the-middle attacks, aswell as saving the password of the user on the server.
+In the best case password is saved on the server as a salted hash. Worst case would be that it is saved or even logged somewhere in clear text.
+This flaw can also be found in a lot of balanced PAKEs, because they share the same password with each other.
+With Balanced PAKEs having the problem to rely on saved passwords on server side, augmented PAKEs entered the display.
+%SSL flaw ?
+Another important issue with PAKE not used widely, is that most PAKE protocls used to have a patent and that stopped them from being used at all.
+Nowadays most patents are expired.
+J-PAKE was the first protocol that was publicly available and theefore used in some applications. Especially Mozilla tried to integrate it into their browsers sync feature, but it got removed shortly after.
+The same happend with an OpenSSL implementation of J-PAKE it got removed. J-PAKE was a balanced PAKE, it did not provide any advantage over the established methods. These advantages are 
+While the PAKE protocols where under the protection of patents other solutions where developed. The most famous and used other solutions are SSL and their, now standard, successor TLS. 
+Implmenting these protocols in todays services would not change much for the user as he is still required to choose a password. 
+One important factor however is the strength of the used password as the most actual versions (OPAQUE) of PAKE protocols provide enough protection from bruteforce attacks in case of a server breach.
+This is a good thing as users tend to use simple passwords for their logins which provides a huge security risk for them.
+So implemting these protocls would not change anything for the user but it will help strengthen the security of the user of a potential password leak.
+With implemting these protocls the next problem occours: There could be attacks found on the implemtation, like the PARASITE attack on the SRP protocol.
+On the other hand todays standard protocols are not immunne to attacks either, like the Heatbleed attack on the TLS protocol showed in 2014.
+Implemting a PAKE in your login flow has the side effect of being resource intensive on the user device. 
+It is easier to compute a salted hash of a password on the device than to compute serveral hashes combined with multiple additional exponential modular calculations. 
+Some PAKE protocls already found their way in the most used crypto libary called OpenSSL. 
+When optimized it should be possible that todays used devices are able to handle the additional workload provided by using a PAKE protocol. 
+These protocols make a pretty strong case for them nowadays especially combined with the already established TLS protocol they are a good and more secure alternative to established methods of authenticatin a user.
+That PAKE protocols can be used in wireless networks is also showed in by Apple by using the SRP Protocol in their smart home solution.
+%- a lot of protocols have flaws even the used ones (WLAN)
+%- Normal password based protocols are easier to implement and have the same security for the user, if done right
+%- patents have made it difficult to use PAKE protocols as they are all protected
+%- Pseudo Randomness made it insecure in webbbrowsers
+% OPAQUE
 
 \section{Conclusion}
-
-
+With WPA3 their is a PAKE underway to come to every wifi network, while it still has some flaws it is nowadays a better solution than WPA2.
+With a new generation of PAKE there is a possiblity that more serivces and devices will adapt these protocols and be therefore more secure.
+The past showed that there are a lot of possible threats on PAKE protocols.
+These threats an vulnerabilieties can be exploited as it was shown by the PARASITE and Dragonblood attacks.
+Our contribution was to get a short introdutcion to PAKE protocols and show their weakness and strengths. 
+Aswell as providing some history on why PAKE protocols are not adapted by industry despite being a superior solution.
+We showed that PAKE protocols are not immune to attacks they say they should be, like the SPEKE or EKE protocol against dictionary attacks.
+As implementations of PAKE protocls becoming standardized in other protocols it is important for them to be secure.
+It was important for them to be performant which opened them up for side-channel attacks. While still important with todays availablity of computing power it should be possible to implement PAKEs performant and secure. 
+As a final thought, while still not standard PAKEs are on a good way to become more famous as the topic gets more traction.
+We wanted to contribute to that possible traction by giving the people some insight on why PAKEs are not widely used. 
+Being a superior idea but still having some child troubbles PAKEs still have a long way to go until they are a standard.
 % Please number citations consecutively within brackets \cite{b1}. The 
 % sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
 % number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
@@ -243,6 +320,10 @@ This allows for some
 \bibitem{b10} https://chunminchang.gitbooks.io/j-pake-over-tls/content/pake/balanced/dh-eke.html
 \bibitem{b11} https://www.dcs.warwick.ac.uk/~fenghao/files/pw.pdf
 \bibitem{b12} https://eprint.iacr.org/2014/585.pdf
+\bibitem{b13} https://blog.cryptographyengineering.com/2018/10/19/lets-talk-about-pake/
+\bibitem{b14} https://eprint.iacr.org/2021/553.pdf
+\bibitem{b15} https://eprint.iacr.org/2018/163.pdf
+\bibitem{b16} https://eprint.iacr.org/2012/021.pdf
 \end{thebibliography}
 \vspace{12pt}
 % \color{red}
